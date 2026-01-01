@@ -7,11 +7,13 @@ namespace DiaryApp.Controllers
     {
         private readonly ApplicationDbContext _db;
 
+        //constructor
         public DiaryEntriesController(ApplicationDbContext db)
         {
             _db = db;
         }
         public IActionResult Index()
+            //DiaryEntries = sql server table name
         {
             List<DiaryEntry> objDiaryEntryList = _db.DiaryEntries.ToList();
             return View(objDiaryEntryList);
