@@ -7,5 +7,8 @@
 bin/
 obj/
 
+# Node
+node_modules/
+
 # Local app config
 appsettings.Development.json

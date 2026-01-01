@@ -1,0 +1,10 @@
+{
+	"scripts": {
+		"build:css": "tailwindcss -i ./DiaryApp/wwwroot/css/app.css -o ./DiaryApp/wwwroot/css/output.css",
+		"watch:css": "tailwindcss -i ./DiaryApp/wwwroot/css/app.css -o ./DiaryApp/wwwroot/css/output.css --watch"
+	},
+	"devDependencies": {
+		"@tailwindcss/cli": "^4.1.18",
+		"tailwindcss": "^4.1.18"
+	}
+}
