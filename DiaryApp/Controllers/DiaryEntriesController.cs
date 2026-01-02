@@ -16,7 +16,9 @@ namespace DiaryApp.Controllers
         public IActionResult Index()
             //DiaryEntries = sql server table name
         {
-            List<DiaryEntry> objDiaryEntryList = _db.DiaryEntries.ToList();
+            List<DiaryEntry> objDiaryEntryList = _db.DiaryEntries
+                .OrderByDescending(e => e.Created)
+                .ToList();
             return View(objDiaryEntryList);
         }
 

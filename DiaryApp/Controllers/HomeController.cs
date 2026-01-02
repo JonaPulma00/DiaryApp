@@ -1,20 +1,41 @@
-using System.Diagnostics;
+using DiaryApp.Data;
 using DiaryApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace DiaryApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var totalEntries = await _context.DiaryEntries.CountAsync();
+
+            var now = DateTime.Now;
+            var startOfMonth = new DateTime(now.Year, now.Month, 1);
+            var thisMonth = await _context.DiaryEntries
+                .Where(e => e.Created >= startOfMonth)
+                .CountAsync();
+
+            var startOfWeek = now.AddDays(-(int)now.DayOfWeek);
+            var thisWeek = await _context.DiaryEntries
+                .Where(e => e.Created >= startOfWeek)
+                .CountAsync();
+
+            ViewBag.TotalEntries = totalEntries;
+            ViewBag.ThisMonth = thisMonth;
+            ViewBag.ThisWeek = thisWeek;
+
             return View();
         }
 
