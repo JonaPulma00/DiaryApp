@@ -1,5 +1,7 @@
 ﻿using DiaryApp.Data;
 using DiaryApp.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DiaryApp.Services
 {
@@ -19,6 +21,29 @@ namespace DiaryApp.Services
                 .ToList();
 
             return objDiaryEntryList;   
+        }
+
+        public DiaryEntry? GetById(Guid id)
+        {
+            return _db.DiaryEntries.Find(id);
+        }
+
+        public void Create(DiaryEntry entry)
+        {
+            _db.DiaryEntries.Add(entry);
+            _db.SaveChanges();
+        }
+
+        public void Update(DiaryEntry entry)
+        {
+            _db.DiaryEntries.Update(entry);
+            _db.SaveChanges();
+        }
+
+        public void Delete(DiaryEntry entry)
+        {
+            _db.DiaryEntries?.Remove(entry);
+            _db.SaveChanges();
         }
     }
 }
