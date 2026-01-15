@@ -1,6 +1,7 @@
 ﻿using DiaryApp.Data;
 using DiaryApp.Models;
 using DiaryApp.Services;
+using DiaryApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 namespace DiaryApp.Controllers
 {
@@ -28,20 +29,13 @@ namespace DiaryApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(DiaryEntry obj)
+        public IActionResult Create(DiaryEntryViewModel vm)
         {
-            //Server side validations
-            if (obj != null && obj.Title.Length < 3) {
-                ModelState.AddModelError("Title", "The title lengh is too short!");
-            }
+            if (!ModelState.IsValid)
+                return View(vm);
 
-            if (ModelState.IsValid)
-            {
-                _diaryService.Create(obj);
-                return RedirectToAction("Index");
-            }
-
-            return View(obj);
+            _diaryService.Create(vm);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -61,21 +55,13 @@ namespace DiaryApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(DiaryEntry obj)
+        public IActionResult Edit(DiaryEntryViewModel vm)
         {
-            //Server side validations
-            if (obj != null && obj.Title.Length < 3)
-            {
-                ModelState.AddModelError("Title", "The title lengh is too short!");
-            }
+            if (!ModelState.IsValid)
+                return View(vm);
 
-            if (ModelState.IsValid)
-            {
-                _diaryService.Update(obj);
-                return RedirectToAction("Index");
-            }
-
-            return View(obj);
+            _diaryService.Update(vm);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]

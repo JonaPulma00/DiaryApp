@@ -1,5 +1,6 @@
 ﻿using DiaryApp.Data;
 using DiaryApp.Models;
+using DiaryApp.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,14 +29,27 @@ namespace DiaryApp.Services
             return _db.DiaryEntries.Find(id);
         }
 
-        public void Create(DiaryEntry entry)
+        public void Create(DiaryEntryViewModel vm)
         {
+            var entry = new DiaryEntry
+            {
+                Id = Guid.NewGuid(),
+                Title = vm.Title,
+                Content = vm.Content,
+                Created = DateTime.Now
+            };
             _db.DiaryEntries.Add(entry);
             _db.SaveChanges();
         }
 
-        public void Update(DiaryEntry entry)
+
+        public void Update(DiaryEntryViewModel vm)
         {
+            var entry = _db.DiaryEntries.Find(vm.Id);
+            if (entry == null) return;
+
+            entry.Title = vm.Title;
+            entry.Content = vm.Content;
             _db.DiaryEntries.Update(entry);
             _db.SaveChanges();
         }
