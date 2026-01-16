@@ -5,6 +5,8 @@ Personal diary application built with ASP.NET Core MVC and Entity Framework Core
 ## Features
 - Create, read, update, and delete diary entries
 - Responsive dark theme UI with Tailwind CSS
+- Basic log for development
+- Implementation of ViewModel / DTO
 - SQL Server database with EF Core migrations
 - Clean MVC architecture
 
