@@ -2,9 +2,11 @@
 using DiaryApp.Models;
 using DiaryApp.Services;
 using DiaryApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace DiaryApp.Controllers
 {
+
     public class DiaryEntriesController : Controller
     {
         private readonly ApplicationDbContext _db;

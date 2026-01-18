@@ -33,14 +33,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
 
 
+app.UseStaticFiles();
 //Structure of our routing, in this case it will be first controller then action and maybe id? It has default values, in this case home and index
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+    
 
 
 app.Run();
