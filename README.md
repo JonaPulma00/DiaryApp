@@ -7,11 +7,12 @@ Personal diary application built with ASP.NET Core MVC and Entity Framework Core
 - Responsive dark theme UI with Tailwind CSS
 - Basic log for development
 - Implementation of ViewModel / DTO
+- ASP Net Core Identity
 - SQL Server database with EF Core migrations
 - Clean MVC architecture
 
 ## Tech Stack
-- ASP.NET Core 9.0
+- ASP.NET Core 8.0
 - Entity Framework Core
 - SQL Server
 - Tailwind CSS
