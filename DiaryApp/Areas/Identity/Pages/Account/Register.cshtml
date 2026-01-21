@@ -4,61 +4,100 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="min-h-[calc(100vh-300px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold bg-gradient-to-b from-white via-grey-200 to-blue-300 bg-clip-text text-transparent mb-2 py-2">
+                @ViewData["Title"]
+            </h1>
+            <p class="text-slate-400 text-sm">Crea una nueva cuenta</p>
+        </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
+        <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-8 shadow-2xl">
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg text-sm" role="alert"></div>
+
+                <div>
+                    <label asp-for="Input.Email" class="block text-sm font-medium text-slate-300 mb-2">Email</label>
+                    <input asp-for="Input.Email"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                           autocomplete="username"
+                           aria-required="true"
+                           placeholder="name@example.com" />
+                    <span asp-validation-for="Input.Email" class="text-red-400 text-sm mt-1 block"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Password" class="block text-sm font-medium text-slate-300 mb-2">Password</label>
+                    <input asp-for="Input.Password"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                           autocomplete="new-password"
+                           aria-required="true"
+                           placeholder="••••••••"
+                           type="password" />
+                    <span asp-validation-for="Input.Password" class="text-red-400 text-sm mt-1 block"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.ConfirmPassword" class="block text-sm font-medium text-slate-300 mb-2">Confirm Password</label>
+                    <input asp-for="Input.ConfirmPassword"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                           autocomplete="new-password"
+                           aria-required="true"
+                           placeholder="••••••••"
+                           type="password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-red-400 text-sm mt-1 block"></span>
+                </div>
+
+                <div>
+                    <button id="registerSubmit"
+                            type="submit"
+                            class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-[1.02]">
+                        Register
+                    </button>
+                </div>
+
+                <div class="pt-4 border-t border-slate-700/50">
+                    <p class="text-center text-slate-400 text-sm">
+                        ¿Ya tienes una cuenta?
+                        <a asp-page="./Login"
+                           asp-route-returnUrl="@Model.ReturnUrl"
+                           class="text-blue-400 hover:text-blue-300 transition-colors ml-1">
+                            Inicia sesión
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        @if ((Model.ExternalLogins?.Count ?? 0) > 0)
+        {
+            <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-8 shadow-2xl">
+                <h3 class="text-lg font-semibold text-white mb-4 text-center">O regístrate con</h3>
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div class="flex flex-col gap-3">
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit"
+                                    class="w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition-all duration-200"
+                                    name="provider"
+                                    value="@provider.Name"
+                                    title="Log in using your @provider.DisplayName account">
+                                @provider.DisplayName
+                            </button>
+                        }
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="bg-slate-800/30 backdrop-blur-sm border border-slate-700/30 rounded-xl p-6 text-center">
+                <p class="text-slate-400 text-sm">
+                    No hay servicios de autenticación externos configurados.
+                </p>
+            </div>
+        }
     </div>
 </div>
 

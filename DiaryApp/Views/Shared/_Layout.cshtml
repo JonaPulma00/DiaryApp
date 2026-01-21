@@ -11,55 +11,72 @@
         <nav class="container mx-auto px-6 py-5">
             <div class="flex items-center justify-between">
                 <a class="text-2xl font-bold bg-gradient-to-b from-white via-grey-200 to-blue-300 bg-clip-text text-transparent" asp-area="" asp-controller="Home" asp-action="Index">DiaryApp</a>
-
                 <button class="md:hidden text-slate-300 hover:text-white" id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
-
-                <ul class="hidden md:flex space-x-8">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <ul class="hidden md:flex space-x-8 items-center">
+                        <li>
+                            <a class="text-slate-300 hover:text-white transition-colors font-medium" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li>
+                            <a class="text-slate-300 hover:text-white transition-colors font-medium" asp-area="" asp-controller="DiaryEntries" asp-action="Index">Diary</a>
+                        </li>
+                        <li>
+                            <a class="text-slate-300 hover:text-white transition-colors font-medium" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li>
+                            <span class="text-blue-400 font-medium">@User.Identity.Name</span>
+                        </li>
+                        <li>
+                            <form method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" class="inline">
+                                <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                }
+            </div>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <ul class="hidden mt-4 space-y-3 md:hidden" id="mobile-menu">
                     <li>
-                        <a class="text-slate-300 hover:text-white transition-colors font-medium" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="block text-slate-300 hover:text-white transition-colors" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li>
-                        <a class="text-slate-300 hover:text-white transition-colors font-medium" asp-area="" asp-controller="DiaryEntries" asp-action="Index">Diary</a>
+                        <a class="block text-slate-300 hover:text-white transition-colors" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
                     <li>
-                        <a class="text-slate-300 hover:text-white transition-colors font-medium" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="block text-slate-300 hover:text-white transition-colors" asp-area="" asp-controller="DiaryEntries" asp-action="Index">Diary</a>
+                    </li>
+                    <li class="pt-3 border-t border-slate-700">
+                        <span class="block text-blue-400 font-medium mb-3">@User.Identity.Name</span>
+                    </li>
+                    <li>
+                        <form method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/">
+                            <button type="submit" class="w-full text-left px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium cursor-pointer">
+                                Logout
+                            </button>
+                        </form>
                     </li>
                 </ul>
-            </div>
-
-            <ul class="hidden mt-4 space-y-3 md:hidden" id="mobile-menu">
-                <li>
-                    <a class="block text-slate-300 hover:text-white transition-colors" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li>
-                    <a class="block text-slate-300 hover:text-white transition-colors" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </li>
-                <li>
-                    <a class="block text-slate-300 hover:text-white transition-colors" asp-area="" asp-controller="Home" asp-action="MyPage">My Page</a>
-                </li>
-                <li>
-                    <a class="block text-slate-300 hover:text-white transition-colors" asp-area="" asp-controller="DiaryEntries" asp-action="Index">Diary</a>
-                </li>
-            </ul>
+            }
         </nav>
     </header>
-
     <div class="container mx-auto px-6 flex-grow">
         <main class="py-12">
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-t border-slate-700/50 bg-slate-800/30 backdrop-blur-sm mt-12">
         <div class="container mx-auto px-6 py-8 text-center text-slate-400 text-sm">
             Jonathan Rodas - &copy; 2025
         </div>
     </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>

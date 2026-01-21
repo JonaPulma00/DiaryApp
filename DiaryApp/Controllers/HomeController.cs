@@ -3,9 +3,11 @@ using DiaryApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-
+using Microsoft.AspNetCore.Authorization;
 namespace DiaryApp.Controllers
 {
+
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,6 +21,11 @@ namespace DiaryApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
             var totalEntries = await _context.DiaryEntries.CountAsync();
 
             var now = DateTime.Now;
